@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   resources :items, only: [:index, :show]
   resources :users, except: [:index, :show]
   get '/users/orders', to: 'users#show_orders', as: 'user_orders'
-  resources :categories, only: [:show]
+  resources :categories#, only: [:show]
   resources :cart_items, only: [:create]
   resources :orders, except: [:update, :edit, :destroy]
 

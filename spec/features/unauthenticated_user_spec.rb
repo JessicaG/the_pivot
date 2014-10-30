@@ -14,12 +14,18 @@ describe 'unauthenticated user', type: :feature do
     end
 
     it "can browse all vendors" do
-      visit '/'
-      within('.dropdown-menu') do
+      # visit '/'
+      # within('.dropdown-menu') do
+      #   assert page.has_content?('first store')
+      #   assert page.has_content?('second store')
+      #   click_link 'first store'
+      # end
+      visit vendors_path
+      expect(current_path).to eq(vendors_path)
+      save_and_open_page
         assert page.has_content?('first store')
         assert page.has_content?('second store')
         click_link 'first store'
-      end
       expect(current_path).to eq(vendor_path(@vendor1.id))
       expect(page).to have_content 'barney band aids'
     end
