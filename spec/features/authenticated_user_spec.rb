@@ -2,7 +2,7 @@ require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 Capybara.default_wait_time = 5
 
-describe 'authenticated user', type: :feature do
+describe 'authenticated user,', type: :feature do
   include Capybara::DSL
 
 	before do
@@ -13,70 +13,83 @@ describe 'authenticated user', type: :feature do
     click_on 'login'
 	end
 
-	it 'can browse all items' do
-		visit '/'
-    click_link 'Menu'
-    expect(current_path).to eq(items_path)
-    expect(page).to have_content 'Menu'
-	end
-
-	it 'can browse items by category', js: true do
-    small_plates_category = create(:category, title: 'Small Plates')
-    create(:item, title: 'Second Food', categories: [small_plates_category])
-    visit '/'
-    click_link 'Menu'
-    expect(page).to have_content 'Menu'
-    click_link 'Small Plates'
-    expect(page).to have_content 'Small Plates'
-    expect(page).to have_content 'Second Food'
-	end
-
-	it 'can add item to cart', js: true do
-		small_plates_category = create(:category, title: 'Small Plates')
-    create(:item, title: 'Second Food', categories: [small_plates_category])
-    visit items_path
-    find('#add_to_cart').click
-    expect(page).to have_content 'Item added to your cart!'
-    within('.cart-container') do
-        expect(page).to have_content '1'
-      end
-	end
-
-	it 'can view my cart' do
-		within('.cart-container') do
-        find('a').click
-      end
-		expect(current_path).to eq(cart_edit_path)
-    expect(page).to have_content('Your Cart')
-	end
-
-	it 'can remove an item from my cart', js: true do
-		small_plates_category = create(:category, title: 'Small Plates')
-    create(:item, title: 'Second Food', categories: [small_plates_category])
-    visit items_path
-    find('#add_to_cart').click
-    expect(page).to have_content 'Item added to your cart!'
-    visit cart_edit_path
-    find("#remove_item").click
-    within('.cart-container') do
-      expect(page).to have_content '0'
+  context "when browsing and ordering," do
+    before do
+      @vendor = create(:vendor)
+      # @vendor2 = create(:vendor, name: 'second store', description: 'a store that sells first aid', slug: '/second_store')
+      @category = create(:category)
+      @item = create(:item, vendor: @vendor, categories: [@category])
     end
-	end
 
-	it "can update the quantity of an item in the cart", js: true do
-		small_plates_category = create(:category, title: 'Small Plates')
-    create(:item, title: 'Second Food', categories: [small_plates_category])
-    visit items_path
-    find('#add_to_cart').click
-    expect(page).to have_content 'Item added to your cart!'
-    visit cart_edit_path
-    fill_in('quantity', with: '2')
-    find('#update_quantity').click
-    within('.cart-container') do
-      expect(page).to have_content '2'
+  	it 'can browse all items' do
+      visit '/'
+      within('.dropdown-menu') do
+        assert page.has_content?('Items')
+        click_link 'Items'
+      end
+      expect(current_path).to eq(items_path)
+      expect(page).to have_css '.grid-item'
+  	end
+
+  	it 'can browse items by category' do
+      visit '/'
+      within('.dropdown-menu') do
+        assert page.has_content?('Categories')
+        click_link 'Categories'
+      end
+      expect(current_path).to eq(categories_path)
+      expect(page).to have_css '.categories-list'
+      within('.categories-list') do
+        assert page.has_content?("#{@category.title}")
+        click_link "#{@category.title}"
+      end
+      expect(current_path).to eq(category_path(@category))
+      expect(page).to have_content "#{@category.title.capitalize}"
+      expect(page).to have_content "#{@item.title}"
+
+  	end
+
+  	it 'can add item to cart', js: true do
+      visit items_path
+      find('#add_to_cart').click
+      expect(page).to have_content 'Item added to your cart!'
+      within('.cart-container') do
+          expect(page).to have_content '1'
+        end
+  	end
+
+  	it 'can view my cart' do
+  		within('.cart-container') do
+          find('a').click
+        end
+  		expect(current_path).to eq(cart_edit_path)
+      expect(page).to have_content('Your Cart')
+  	end
+
+  	it 'can remove an item from my cart', js: true do
+      visit items_path
+      find('#add_to_cart').click
+      expect(page).to have_content 'Item added to your cart!'
+      visit cart_edit_path
+      find("#remove_item").click
+      within('.cart-container') do
+        expect(page).to have_content '0'
+      end
+	   end
+
+  	it "can update the quantity of an item in the cart", js: true do
+      visit items_path
+      find('#add_to_cart').click
+      expect(page).to have_content 'Item added to your cart!'
+      visit cart_edit_path
+      fill_in('quantity', with: '2')
+      find('#update_quantity').click
+      within('.cart-container') do
+        expect(page).to have_content '2'
+      end
+      selected = find('#quantity').value
+      expect(selected).to eq('2')
     end
-    selected = find('#quantity').value
-    expect(selected).to eq('2')
   end
 
   it "can logout" do
@@ -123,8 +136,6 @@ describe 'authenticated user', type: :feature do
 	end
 
   it 'cannot add a retired item to the cart' do
-      small_plates_category = create(:category, title: 'Small Plates')
-      create(:item, id: 1, title: 'Second Food', categories: [small_plates_category], active: false)
       visit '/items/1'
       expect(page).to have_content "Second Food"
       visit '/items'
@@ -132,8 +143,6 @@ describe 'authenticated user', type: :feature do
   end
 
   it 'can view a retired items page' do
-      small_plates_category = create(:category, title: 'Small Plates')
-      create(:item, id: 1, title: 'Second Food', categories: [small_plates_category], active: false)
       visit '/items/1'
       expect(page).to have_content "Second Food"
   end
@@ -168,8 +177,9 @@ describe 'authenticated user order display page' do
     it 'links to each item description' do
       click_on '3'
       click_on 'Second Food'
-      expect(page).to have_content "Second Food"
+      expect(page).to have_content "Second food"
     end
+
     it 'shows current status of an order' do
       @order.status = 'pending'
       click_on '4'

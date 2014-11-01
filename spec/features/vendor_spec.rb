@@ -9,10 +9,10 @@ describe 'vendor', type: :feature do
   end
 
   it 'views all vendor pages' do
-    visit root_path
-    find('.dropdown-toggle').click
+    visit '/'
     within('.dropdown-menu') do
-      find('li:nth-child(1) > a').click
+      assert page.has_content?('Vendors')
+      click_link 'Vendors'
     end
     expect(current_path).to eq vendors_path
     expect(page).to have_link('first store')
@@ -27,7 +27,7 @@ describe 'vendor', type: :feature do
     expect(page).to have_link('band aids')
     expect(page).to_not have_content('error')
   end
-  
+
   it 'can create a new vendor' do
     visit new_vendor_path
     fill_in("Name Your Store", with: 'Great Store')

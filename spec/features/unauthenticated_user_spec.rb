@@ -24,7 +24,7 @@ describe 'unauthenticated user', type: :feature do
       assert page.has_content?('first store')
       assert page.has_content?('second store')
       click_link 'first store'
-      expect(current_path).to eq(vendor_path(@vendor1.id))
+      expect(current_path).to eq(vendor_path(@vendor1))
       expect(page).to have_content 'barney band aids'
     end
 
@@ -47,6 +47,7 @@ describe 'unauthenticated user', type: :feature do
         assert page.has_content?('Items')
         click_link 'Items'
       end
+      expect(current_path).to eq(items_path)
       expect(page).to have_content 'Categories'
       expect(page).to have_content 'barney band aids'
       expect(current_path).to eq(items_path)
@@ -63,10 +64,15 @@ describe 'unauthenticated user', type: :feature do
 
     it "can browse items by category", js: true do
       visit items_path
-      expect(page).to have_content 'Mickey band aids'
-      click_link 'First Aid'
-      expect(page).to have_content 'First Aid'
-      expect(page).to have_content 'Mickey band aids'
+      expect(page).to have_content "#{@item.title}"
+      expect(page).to have_css '#category_list'
+      within('#category_list') do
+       expect(page).to have_content "First Aid"
+#        expect(page).to have_css "##{@first_aid_category.title.split.join('_')}"
+      end
+      find('#First_Aid').trigger('click')
+      expect(page).to have_content "#{@first_aid_category.title}"
+      expect(page).to have_content "#{@item.title}"
     end
 
     it "can view a single item" do
