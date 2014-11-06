@@ -3,7 +3,7 @@
   <h1 class="text-center vendors-title">All Vendors</h1>
   <ul class="vendors-list">
     <% @vendors.each do |vendor| %>
-      <h4><%=link_to "#{vendor.name}", vendor_path(vendor.slug) %></h4>
+      <h4><%=link_to "#{vendor.name}", vendor.slug %></h4>
     <% end %>
   </ul>
   </div>

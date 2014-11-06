@@ -23,7 +23,7 @@ describe 'vendor', type: :feature do
     within('.vendors-list') do
       click_on('first store')
     end
-    expect(current_path).to eq vendor_path(@vendor.slug)
+    expect(current_path).to eq("/#{@vendor.slug}")
     expect(page).to have_link('band aids')
     expect(page).to_not have_content('error')
   end

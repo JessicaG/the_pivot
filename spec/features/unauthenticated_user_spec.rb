@@ -24,7 +24,7 @@ describe 'unauthenticated user', type: :feature do
       assert page.has_content?('first store')
       assert page.has_content?('second store')
       click_link 'first store'
-      expect(current_path).to eq(vendor_path(@vendor1.slug))
+      expect(current_path).to eq("/#{@vendor1.slug}")
       expect(page).to have_content 'barney band aids'
     end
 

@@ -47,7 +47,13 @@ Rails.application.routes.draw do
   match '/contacts',     to: 'contacts#new',             via: 'get'
   resources "contacts", only: [:new, :create]
 
-  get '/:slug', to: 'vendors#show'
+  get ':slug', to: 'vendors#show'
+
+  # scope ':slug' do
+  #   get '/', to: 'vendors#show'
+  #   resources :items, only: [:index, :show]
+  # end
+
 
   # /my_tap_shoes/items/6
   # namespace ':slug' do
