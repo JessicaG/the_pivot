@@ -28,9 +28,9 @@ Rails.application.routes.draw do
   resources :categories#, only: [:show]
   resources :cart_items, only: [:create]
 
-  resources :orders, except: [:update, :edit, :destroy]
-  get 'orders/exchange', to: 'orders#exchange'
   post 'orders/new', to: 'orders#store_lat_long'
+  resources :orders, except: [:update, :edit, :destroy]
+  # get 'orders/exchange', to: 'orders#exchange' <-- if separate order conf. page
 
 
   get 'items/:item_id/review', to: 'reviews#new', as: 'new_review'
@@ -49,8 +49,6 @@ Rails.application.routes.draw do
 
   match '/contacts',     to: 'contacts#new',             via: 'get'
   resources "contacts", only: [:new, :create]
-
-#  get '/:slug', to: 'vendors#show'
 
   get ':slug', to: 'vendors#show'
 

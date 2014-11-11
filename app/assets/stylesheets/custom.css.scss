@@ -259,7 +259,8 @@ a {
 }
 //Pickup or Delivery Styles (order/new)
 #pickup,
-#delivery {
+#delivery,
+#confirm {
   display: none;
   width: 100%;
   color: darkred;
@@ -294,4 +295,7 @@ a {
  }
  .address-box * {
    margin: 8px 0;
+ }
+ #new_order {
+   
  }

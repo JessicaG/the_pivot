@@ -61,7 +61,12 @@ class Order < ActiveRecord::Base
       VendorOrder.new(self, key, value)
     end
   end
-  
+
+  def convert_points
+    self.latitude.to_f   
+    self.longitude.to_f   
+  end
+ 
   def text_customer(order)
     customer_phone_number = "3034789928" # in production, change to match @user.phone_number
 

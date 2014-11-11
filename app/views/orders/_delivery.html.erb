@@ -1,10 +1,10 @@
 <div id="delivery" class="container">
-  <%= form_tag("/orders/new", method: "post") do %>
-    <%= hidden_field_tag latitude: "latitude" %>
-    <%= hidden_field_tag longitude: "longitude" %>
-    <%= submit_tag "Drop My AirLift Order Here!", id: "geoFindMe", class: "btn btn-lg btn-success" %>
-  <% end %>
-  <!-- <button id="geoFindMe" class="btn btn-lg btn-success">Drop My Airlift Order Here!</button> -->
+  <%#= form_tag("/orders/new", method: "post") do %>
+    <%#= hidden_field_tag latitude: "latitude" %>
+    <%#= hidden_field_tag longitude: "longitude" %>
+    <%#= submit_tag "Drop My AirLift Order Here!", id: "geoFindMe", class: "btn btn-lg btn-success" %>
+  <%# end %>
+  <button id="geoFindMe" class="btn btn-lg btn-success">Drop My Airlift Order Here!</button>
   <div id="lat-long" class="container"></div>
   <div id="delivery-map-container">
     <div id="delivery-map-canvas"></div>

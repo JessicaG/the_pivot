@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
 	load_and_authorize_resource
+#  before_create :convert_points
   helper_method :find_vendor_name
 
 	def new
@@ -12,6 +13,8 @@ class OrdersController < ApplicationController
 	def create
     order = Order.new(order_params)
     order.populate(cart, current_user)
+    order.convert_points
+#    require 'pry'; binding.pry
     cart.clear
 
 		if order.save
@@ -38,20 +41,20 @@ class OrdersController < ApplicationController
   end
 
   def store_lat_long
-    session[:latitude] = params[:latitude] 
-    session[:longitude] = params[:longitude] 
-    redirect_to items_path 
+    session[:latitude] = params[:latitude]
+    session[:longitude] = params[:longitude]
+    render text: ''
   end
   
 	private
 
 	def order_params
-		params.require(:order).permit(:street_number, :street, :city, :state, :zip, :exchange, :status)
+		params.require(:order).permit(:street_number, :street, :city, :state, :zip, :exchange, :status, :latitude, :longitude)
 	end
 
  def find_vendor_name(vendor_id)
    Vendor.where(id: vendor_id).first.name
  end
 
-end
+ end
 

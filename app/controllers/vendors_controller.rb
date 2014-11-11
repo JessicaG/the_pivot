@@ -27,7 +27,7 @@ class VendorsController < ApplicationController
     @vendor = Vendor.new(vendor_params)
     if @vendor.save
       redirect_to root_path
-      flash[:notice] = "Your store has been successfully created! You'll receive an email from Airlift soon."
+      flash[:notice] = "Your request for a new store has been sent! We'll let you know within 24 hours if your store is approved!"
     else
       render 'new'
     end
