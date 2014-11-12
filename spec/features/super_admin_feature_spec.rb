@@ -11,11 +11,22 @@ describe 'super admin user', type: :feature do
     click_on 'login'
   end
 
-  it "can see all users" do
-    visit '/super_admin'
-    click_on 'Create New User or Administrator'
-    expect(current_path).to eq new_super_admin_user_path
-    expect(page).to have_content("Create A New User or Administrator")
+  context 'dashboard' do
+    before do
+      @vendor = create(:vendor)
+      @user = create(:user, first_name: 'joe', email: 'abc@example.com', password: 'asdf', password_confirmation: 'asdf', role:'vendor_admin', vendor_id: @vendor.id)
+      # visit '/'
+      # fill_in 'email', with: "#{@user.email}"
+      # fill_in 'password', with: "#{@user.password}"
+      # click_on 'login'
+    end
+
+    it "can see all users" do
+      visit '/super_admin'
+      expect(page).to have_content("View Current Users")
+      click_on 'View Current Users'
+      expect(page).to have_content(@user.first_name)
+    end
   end
 
   it 'can see all vendors' do

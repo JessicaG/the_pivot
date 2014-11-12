@@ -21,11 +21,10 @@ describe 'unauthenticated user', type: :feature do
       end
       expect(current_path).to eq(vendors_path)
       assert page.has_content?('All Vendors')
-      assert page.has_content?('first store')
-      assert page.has_content?('second store')
-      click_link 'first store'
+      assert page.has_content?(@vendor1.name)
+      assert page.has_content?(@vendor2.name)
+      click_link "#{@vendor1.name}"
       expect(current_path).to eq("/#{@vendor1.slug}")
-      expect(page).to have_content 'barney band aids'
     end
 
     it "can browse all categories" do

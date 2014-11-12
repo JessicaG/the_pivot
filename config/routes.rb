@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   namespace :vendor_admin do
     get '', to: 'dashboard#index'
     resources :items, except: [:index]
-    resources :categories
+    # resources :categories
     resources :users
     resources :orders, only: [:index, :edit, :destroy]
     patch '/order/status/:id/:status', to: 'orders#status', as: 'order_status'

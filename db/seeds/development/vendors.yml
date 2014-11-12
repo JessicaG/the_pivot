@@ -6,6 +6,8 @@ records:
     city: "Boston"
     state: "MA"
     zip: "02210"
+    approved: 'yes'
+    online: 'yes'
   - sprig_id: 2
     name: "Real Relief"
     description: "Delivering the emergency supplies you'll need on the ground the moment disaster ends and recovery begins."
@@ -13,6 +15,8 @@ records:
     city: "Kinston"
     state: "NC"
     zip: "28504"
+    approved: 'yes'
+    online: 'no'
   - sprig_id: 3
     name: "Responder"
     description: "Medical supplies necessary for the emergencies you cannot predict but will need to be ready for."
@@ -20,6 +24,8 @@ records:
     city: "Portland"
     state: "OR"
     zip: "97204"
+    approved: 'no'
+    online: 'yes'
   - sprig_id: 4
     name: "Doomsday Preppers"
     description: "Don't prepare for the disaster you think is coming--prepare for the worst."
@@ -27,6 +33,8 @@ records:
     city: "Kodiak"
     state: "AK"
     zip: "99615"
+    approved: 'yes'
+    online: 'yes'
   - sprig_id: 5
     name: "Gimme Shelter"
     description: "Keep the elements out. Offering top-of-the-line primitive, survival, and long-term disaster housing."
@@ -34,6 +42,8 @@ records:
     city: "Bellevue"
     state: "WA"
     zip: "98004"
+    approved: 'yes'
+    online: 'yes'
   - sprig_id: 6
     name: "Danger Zone"
     description: "Signs and organizational tools to bring order to places like refugee camps and communities recovering from catastrophic disasters."
@@ -41,6 +51,8 @@ records:
     city: "Austin"
     state: "TX"
     zip: "78741"
+    approved: 'yes'
+    online: 'yes'
   - sprig_id: 7
     name: "Power Play"
     description: "Power tools to help speed rebuilding and recovery efforts."
@@ -48,6 +60,8 @@ records:
     city: "St. Louis"
     state: "MO"
     zip: "63102"
+    approved: 'yes'
+    online: 'yes'
   - sprig_id: 8
     name: "Assembly Generator Supplies"
     description: "Generators and backup power systems."
@@ -55,6 +69,8 @@ records:
     city: "West Yellowstone"
     state: "MT"
     zip: "59758"
+    approved: 'yes'
+    online: 'yes'
   - sprig_id: 9
     name: "Courier Emergency Medical"
     description: "Medical supplies meant for doctors who work in the field."
@@ -62,6 +78,8 @@ records:
     city: "Jackson"
     state: "TN"
     zip: "38301"
+    approved: 'yes'
+    online: 'yes'
   - sprig_id: 10
     name: "Duct Tape Depot"
     description: "You need it more than anything for everything."
@@ -69,3 +87,5 @@ records:
     city: "Green Bay"
     state: "WI"
     zip: "54304"
+    approved: 'yes'
+    online: 'yes'

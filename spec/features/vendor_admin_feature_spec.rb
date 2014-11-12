@@ -142,16 +142,21 @@ describe 'vendor admin user', type: :feature do
 	    expect(page).to have_content("Current List of Users")
 	  end
 
-		it "can modify an existing user's role" do
-			nonadmin_user = create(:user, first_name: 'jojo', email: 'jojojo@example.com', password: 'asdf', password_confirmation: 'asdf', role:'user')
+		it "can demote an existing vendor admin's role" do
+			admin_user = create(:user, first_name: 'jojo', email: 'jojojo@example.com', password: 'asdf', password_confirmation: 'asdf', role:'vendor_admin', vendor_id: @vendor.id)
 			visit '/vendor_admin'
 			click_on 'View Current Users'
 			expect(current_path).to eq vendor_admin_users_path
-			click_on('user')
-			expect(current_path).to eq edit_vendor_admin_user_path(nonadmin_user)
-			select 'vendor_admin', from: 'user_role'
+			within("#row-#{admin_user.id}") do
+				click_on('vendor_admin')
+			end
+			expect(current_path).to eq "/vendor_admin/users/#{admin_user.id}/edit"
+			select 'user', from: 'user_role'
 			click_on 'Save Changes'
-			expect(User.last.role).to eq 'vendor_admin'
+			admin_user.reload
+			@user.reload
+			expect(@user.role).to eq 'vendor_admin'
+			expect(admin_user.role).to eq "user"
 		end
 
 		it 'should not say Caussa users'
