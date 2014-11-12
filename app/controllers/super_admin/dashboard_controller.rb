@@ -1,7 +1,7 @@
 class SuperAdmin::DashboardController < SuperAdmin::BaseController
 
   def index
-    @vendors = Vendor.where(active: true)
+    @vendors = Vendor.approved
     @categories = Category.all
     @users = User.all
   end

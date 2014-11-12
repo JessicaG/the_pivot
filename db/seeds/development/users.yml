@@ -34,3 +34,12 @@ records:
     password: 'password'
     password_confirmation: 'password'
     role: 'super_admin'
+  - sprig_id: 5
+    first_name: 'Horace'
+    last_name: 'Horace'
+    email: 'demo+horace@jumpstartlab.com'
+    nickname:
+    password: 'password'
+    password_confirmation: 'password'
+    role: 'vendor_admin'
+    vendor_id: '<%= sprig_record(Vendor, 1).id %>'

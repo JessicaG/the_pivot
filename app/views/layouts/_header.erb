@@ -27,12 +27,11 @@
               <%= submit_tag "Search", :name => nil, :class =>"btn btn-grey4" %>
             <% end %>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <!-- <button type="submit" class="btn btn-default">Submit</button> -->
           </form>
           <% if can? :create, @category %>
             <li class="active"><%= link_to "Platform Admin Dashboard", super_admin_path %></li>
           <% elsif can? :create, @item %>
-          <%# if can? :create, @item %>
             <li class="active"><%= link_to "Admin Dashboard", vendor_admin_path(current_user.vendor_id) %></li>
           <% end %>
         </ul>

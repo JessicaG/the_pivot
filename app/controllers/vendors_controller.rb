@@ -11,12 +11,12 @@ class VendorsController < ApplicationController
 
   def show
     @categories = Category.all
-  	@vendor = Vendor.where(slug: params[:slug]).first
-  	if @vendor
+  	@vendor = Vendor.find_by!(slug: params[:slug])
+  	if @vendor.display?
   		render :show
   	else
-  		redirect_to root_path
-  	end
+  		raise ActiveRecord::RecordNotFound
+    end
   end
 
   def new
@@ -36,6 +36,6 @@ class VendorsController < ApplicationController
   private
 
   def vendor_params
-    params.require(:vendor).permit(:name, :description, :slug, :street, :city, :state, :zip) 
+    params.require(:vendor).permit(:name, :description, :slug, :street, :city, :state, :zip)
   end
 end

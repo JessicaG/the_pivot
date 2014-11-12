@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
 
   has_many :orders
   has_many :reviews
+  belongs_to :vendor
 
   has_secure_password
 

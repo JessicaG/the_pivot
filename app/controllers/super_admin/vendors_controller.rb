@@ -2,7 +2,7 @@ class SuperAdmin::VendorsController < SuperAdmin::BaseController
   before_action :set_vendor, except: [:index, :new, :create]
 
   def index
-    @vendors = Vendor.where(active: false)
+    @vendors = Vendor.not_approved
   end
 
   def new
@@ -31,7 +31,7 @@ class SuperAdmin::VendorsController < SuperAdmin::BaseController
       flash[:notice] = "Your account information has been successfully updated!"
       redirect_to super_admin_path
     else
-      redirect_to :back
+      redirect_to edit_super_admin_vendor_path(@vendor)
       flash[:notice] = "Error saving your new information."
     end
   end
@@ -44,7 +44,7 @@ class SuperAdmin::VendorsController < SuperAdmin::BaseController
   private
 
     def vendor_params
-      params.require(:vendor).permit(:name, :description, :active, :online)
+      params.require(:vendor).permit(:name, :description, :approved, :online)
     end
 
     def set_vendor

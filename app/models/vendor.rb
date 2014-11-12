@@ -13,10 +13,17 @@ class Vendor < ActiveRecord::Base
   validates :street, presence: true
   validates :city, presence: true
   validates :state, presence: true, inclusion: states
-  validates :zip, presence: true, format: { with: /\d{5}\d*/ } 
+  validates :zip, presence: true, format: { with: /\d{5}\d*/ }
+
+  scope :approved, -> { where(approved: true) }
+  scope :not_approved, -> { where(approved: false) }
+
+  def active?
+    approved?
+  end
 
   def set_address
-    "#{self.street} " + "#{self.city}, " + "#{self.state} " + "#{self.zip}" 
+    "#{self.street} " + "#{self.city}, " + "#{self.state} " + "#{self.zip}"
   end
 
   # def vendor_items
@@ -36,6 +43,23 @@ class Vendor < ActiveRecord::Base
     end
   end
 
+  def approved?
+    self.approved ? 'Yes' : 'No'
+  end
+
+  def approved=(value)
+    value.downcase!
+    if value == 'yes'
+      write_attribute(:approved, true)
+    else
+      write_attribute(:approved, false)
+    end
+  end
+
+  def display?
+    approved? == 'Yes' && online? == 'Yes'
+  end
+
   private
 
   def set_default_slug
@@ -46,7 +70,7 @@ class Vendor < ActiveRecord::Base
     name_to_slug.gsub(/'/, '').parameterize
   end
 
-  
+
   def find_vendor_name(vendor_id)
     Vendor.where(id: vendor_id).first.name
   end
