@@ -39,15 +39,15 @@
       <table class="table">
         <h2>Order Summary</h2>
         <tr class="success">
-          <th>Order Total</th>
           <th>Order Status</th>
-          <th>Estimated Delivery</th>
+          <th>Exchange</th>
+          <th>Order Total</th>
         </tr>
         <tbody>
          <tr class="warning">
-           <td><h4><%= print_price(order_price(@order.items)) %></h4></td>
            <td><h4><%= @order.status.capitalize %></h4></td>
-           <td><h4>delivery info</h4></td>
+           <td><h4><%= @order.exchange.capitalize %></h4></td>
+           <td><h4><%= print_price(order_price(@order.items)) %></h4></td>
         </tr>
       </table>
     </div>

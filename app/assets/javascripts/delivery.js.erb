@@ -1,19 +1,23 @@
 $(document).ready(function() {
     setExchange(); 
 
-    $('#order_exchange').change(setExchange); // on change
-
-    function setExchange() {       
-        switch ($("#order_exchange").val()) {
+    $('#exchange_dropdown').change(setExchange); // on change
+        function setExchange() {       
+        switch ($("#exchange_dropdown").val()) {
             case "Pickup" :
+                $('#order_exchange').attr('value', "pickup");
                 $("#pickup").show("slow", createPickupMap);
                 $('#delivery').hide("slow");
-                $('#datepicker ').datepicker();
+                $('#confirm').hide("slow");
+                $('#confirm_pickup').hide("slow");
+                $('#pickup_date').datepicker();
                 break;
             case "Delivery":
+                $('#order_exchange').attr('value', "delivery");
                 $("#pickup").hide("slow");
+                $('#confirm').hide("slow");
+                $('#confirm_pickup').hide("slow");
                 $("#delivery").show("slow", mapCurrentLocation);
-                $("#confirm-delivery").click();
                 break;
             }
     }; 
@@ -28,10 +32,8 @@ $(document).ready(function() {
           center: centerLatLng,
           zoom: 4 
         };
+
         var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        //var infoContent = '<h2>AirLift Command Center</h2>' +
-         // '<h5><b>Address:</b>1550 Blake St. Denver, CO</h5>' +
-          //'<h5><b>Phone:</b> 1-800-AIRLIFT2</h5>';
         var markerImg = '<%= asset_path('airlift-marker.svg') %>';
         locations = $('.vendor-info').data('locations')
         _.each(locations, function(location) {
@@ -41,31 +43,41 @@ $(document).ready(function() {
               title: location.name,
               icon: markerImg 
           });
-          _.each(locations, function(location) {
-            var infowindow = new google.maps.InfoWindow({
-              content:'<h3>'+ location.name + '</h3>'
-            });
-          });
+
           google.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map,marker);
+            //console.log($(this.value));
+            //$('#pickup_location').val($(this).val());
+            var infowindow = new google.maps.InfoWindow({
+              content:'<h3>'+ location.name + '</h3>' +
+                '<h5><b>Latitude:</b>' + location.latitude + '</h5>' +
+                '<h5><b>Longitude:</b>' + location.longitude + '</h5>'
+            });
+            
+          infowindow.open(map,marker);
+
           });
         });
 
-        //var infowindow = new google.maps.InfoWindow({
-        //  content: infoContent
-        //});
+        $('#pickup_location').on('change', function() {
+          $('#order_pickup_location').val(this.value); 
+        });
+        
+        $('#pickup_date').on('change', function() {
+          $('#order_pickup_date').val(this.value); 
+        });
+        
         $('#confirm-pickup').click(function(){
           $('#pickup').hide("slow");
-          $('#confirm').show("slow");
+          $('#confirm_pickup').show("slow");
+          //$('#confirm').show("slow");
         });
     }
-      //google.maps.event.addDomListener(window, 'change', initialize);
 })
  
     function mapCurrentLocation() {          
       
       var output = document.getElementById("lat-long");
-        output.innerHTML = "<p>Locating…</p>";
+        output.innerHTML = "<h5>Locating . . .</h5>";
 
       navigator.geolocation.getCurrentPosition(function(position) {
 
@@ -87,19 +99,27 @@ $(document).ready(function() {
         });
         
         var infoContent = '<h2>AirDrop Coordinates:</h2>' +
-          '<span><b>Latitude:</b>' + initial_latitude + '</span><br/>' +
-          '<span><b>Longitude:</b>' + initial_longitude +' </span>';
+          '<h5>Latitude: ' + initial_latitude + '</h5><br/>' +
+          '<h5>Longitude: ' + initial_longitude +' </h5>';
 
         var infowindow = new google.maps.InfoWindow({
           content: infoContent
         });
+
         google.maps.event.addListener(marker, 'click', function() {
           infowindow.open(map,marker);
         });
         
-        output.innerHTML = '<p>Latitude: ' + initial_latitude + '° <br>Longitude: ' + initial_longitude + '°</p>';
+        output.innerHTML = '<h5>Latitude: ' + initial_latitude + '° <br>Longitude: ' + initial_longitude + '°</h5>';
 
         // eventually you need this function to send ajax request on button click w/o needing marker to move first
+        $('#confirm-delivery').click( function() {
+          $('#order_latitude').attr('value', initial_latitude);
+          $('#order_longitude').attr('value', initial_longitude);
+          $("#delivery").hide("slow");
+          $("#confirm").show("slow");
+        });
+
         google.maps.event.addListener(marker, 'dragend', function(evt){
           map.panTo(marker.getPosition());
           
@@ -111,16 +131,10 @@ $(document).ready(function() {
             $('#order_longitude').attr('value', marker_lng);
 
             $('#confirm-delivery').click( function() {
-              //$.post( '/orders/new', {latitude: marker_lat, longitude: marker_lng}); 
               $("#delivery").hide("slow");
               $("#confirm").show("slow");
           });
-             
-          
         });
-        
       });
-
     } 
-        //google.maps.event.addDomListener(window, 'change', mapCurrentLocation);
 

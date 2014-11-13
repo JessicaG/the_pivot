@@ -3,11 +3,10 @@
   <% @order.errors.full_messages.each do |m| %>
     <%= m %>
   <% end %>
-  <div>
+  <div class="order-form-with-address">
+    <h3>Enter Billing Address To Complete Order</h3>
     <%= form_for @order do |f|%>
         
-      <%= f.submit class: "btn btn-lg btn-grey1", value: "Submit Your Order"%><br/>
-
         <%= f.label :street_number %>
         <%= f.text_field :street_number %>
 
@@ -26,11 +25,13 @@
       	<%= f.hidden_field :status %>
       	<%= f.hidden_field :latitude %>
       	<%= f.hidden_field :longitude %>
+        
+      	<%= f.hidden_field :pickup_location %>
+      	<%= f.hidden_field :pickup_date %>
 
-      	<%= f.label "Pickup or Delivery?" %>
-      	<%= f.select :exchange, ['pickup', 'delivery'], :selected => 'pickup' %>
-    <% end %>
-  <h2>Enter Your Billing Address For Deliveries</h2>
+      	<%= f.hidden_field :exchange %>
+        <br><%= f.submit id: "submit_order", class: "btn btn-lg btn-grey1", value: "Submit Your Order"%>
+ <% end %>
   </div>
   </div>
 </div>

@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
     order.convert_points
     cart.clear
 
-		if order.save!
+		if order.save
       order.text_customer(order)
       vendor_orders = order.vendor_orders
       vendor_orders.each do |vendor_order|
@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
       flash[:notice] = "Your order has been successfully created!"
 			redirect_to order
 		else
-			flash[:notice] = "Error placing order"
+      flash.now[:notice] = order.errors.full_messages.to_sentence 
 			redirect_to :back
 		end
 	end
@@ -51,7 +51,7 @@ class OrdersController < ApplicationController
 	private
 
 	def order_params
-		params.require(:order).permit(:street_number, :street, :city, :state, :zip, :exchange, :status, :latitude, :longitude)
+		params.require(:order).permit(:street_number, :street, :city, :state, :zip, :exchange, :status, :latitude, :longitude, :pickup_location, :pickup_date)
 	end
 
   def find_vendor_name(vendor_id)

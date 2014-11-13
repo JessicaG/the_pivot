@@ -1,13 +1,14 @@
 <div class="container exchange-container">
   <div "container exchange-options">
-    <select id="order_exchange" class="form-control">
-      <option>Pickup</option>
+    <select id="exchange_dropdown" class="form-control">
       <option>Delivery</option>
+      <option>Pickup</option>
     </select>
   </div>
+  <%= render partial: "confirm" %>
+  <%= render partial: "confirm_pickup" %>
   <%= render partial: "pickup" %>
   <%= render partial: "delivery" %>
-  <%= render partial: "confirm" %>
 </div>
 
 

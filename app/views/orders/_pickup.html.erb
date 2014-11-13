@@ -1,13 +1,15 @@
 <div id="pickup" class="container">
   <div class='vendor-info' data-locations="<%= @locations.to_json %>"></div>
-  <div class="calendar">
     <div id="map-container">
       <div id="map-canvas"></div>
-    </div>
-      <h4>1. Choose A Pickup Location</h4>
-      <%= select_tag "pickup_location", options_from_collection_for_select(@vendors, 'id', 'name'), class: 'form_control' %><br/>
-      <p><input type="button" value="2. Choose a date for pickup" id="datepicker" class="btn btn-lg btn-default"></p>    
-    <button id="confirm-pickup" class="btn btn-lg btn-success">3. Submit Pickup Details</button>    
   </div>
+  <div class="pickup_options">
+    <h4>1. Choose A Pickup Location</h4>
+    <%= select_tag "pickup_location", options_from_collection_for_select(@vendors, 'id', 'name'),  class: 'form_control' %><br/>
+    <h4>2. Choose Your Pickup Date </h4>
+    <p><input type="button" value="Click for Calendar" id="pickup_date" class="btn btn-lg btn-default"></p>    
+    <h4>3. Submit These Details </h4>
+    <button id="confirm-pickup" class="btn btn-lg btn-default">Click to Review Order</button>    
   </div>
+</div>
 

@@ -2,25 +2,25 @@
     <div class="panel-heading"><h1>Your Cart</h1></div>
       <table class="table">
         <% unless cart.items.empty? %>
-        <tr>
-          <th></th>
-          <th>Item</th>
-          <th></th>
-          <th>Purchased from</th>
-          <th>Quantity</th>
-          <th>Item total</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Purchased from</th>
+            <th>Quantity</th>
+            <th>Item total</th>
+          </tr>
+        </thead>
         <tbody>
         <% cart.items_to_quantities.each do |item, quantity| %>
           <tr id='<%= "item_#{item.id}" %>'>
             <td><%= item.title %></td>
-            <td><%= item.vendor.name %><td>
+            <td><%= item.vendor.name %></td>
             <td><%= quantity %></td> 
             <td><%= print_price(item.price * quantity) %></td>
           </tr>
         </tbody>
         <% end %>
-      <% end %>
       </table>
+      <% end %>
     </div>
 
