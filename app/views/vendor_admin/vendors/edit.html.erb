@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>Edit Vendor</h1>
+
+  <div class="admin-user">
+    <div class="container">
+      <%= form_for @vendor, :url => vendor_admin_vendor_path(@vendor), method: "patch" do |f| %>
+          <%= f.label :name, "Name" %>
+          <%= f.text_field :name %><br>
+
+          <%= f.label :slug, "URL" %>
+          <%= f.text_field :slug %><br>
+
+          <%= f.label :description, "Description" %>
+          <%= f.text_area :description %><br>
+
+          <%= f.submit "Save Changes", class: "btn btn-primary btn-lg" %>
+      <% end %>
+
+      <%= link_to "Undo your changes", request.path, class: "btn btn-primary btn-lg" %>
+      <%= link_to "Cancel", vendor_admin_path, class: "btn btn-primary btn-lg" %>
+
+      <%= form_for(@vendor, html: {multipart: true, method: 'delete'}, :url => vendor_path(@vendor) ) do |f| %>
+       <%= f.submit "Delete This Account", class: 'btn btn-danger btn-lg' %>
+      <% end %>
+    </div>
+  </div>
+</div>

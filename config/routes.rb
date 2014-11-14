@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   namespace :vendor_admin do
     get '', to: 'dashboard#index'
     resources :items, except: [:index]
+    resources :vendors, except: [:index]
     # resources :categories
     resources :users
     resources :orders, only: [:index, :edit, :destroy]

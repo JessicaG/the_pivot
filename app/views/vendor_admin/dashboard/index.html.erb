@@ -2,11 +2,11 @@
   <div class="background-color:red">
     <h1 class="text-center"><%= @vendor.name %> Admin Dashboard</h1>
   </div>
-  <!-- <h2>Manage Categories</h2> -->
+  <h2>Manage Vendor</h2>
   <%#= link_to "Create A New Category", new_vendor_admin_category_path, class: "btn btn-grey4 btn-lg" %>
-  <%#= link_to "Edit A Category", vendor_admin_categories_path, class: "btn btn-grey4 btn-lg" %>
+  <%= link_to "Edit Vendor Profile", edit_vendor_admin_vendor_path(@vendor), class: "btn btn-grey4 btn-lg" %>
 
-  <h2>Manage Users</h2>
+  <h2>Manage Admins</h2>
   <%#= link_to "Create New User or Administrator", new_vendor_admin_user_path, class: "btn btn-grey4 btn-lg" %>
   <%= link_to "View Current Users", vendor_admin_users_path, class: "btn btn-grey4 btn-lg" %>
 
